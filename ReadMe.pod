@@ -1,0 +1,7 @@
+=head1 Name
+
+Pegex - Acmeist PEG Parser Framework
+
+=head1 Description
+
+This is Pegex written in CafeScript. Eventually it will be used to generate the Pegex frameworks in every language.

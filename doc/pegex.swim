@@ -1,0 +1,9 @@
+Pegex
+=====
+
+Acmeist PEG Parser Framework
+
+= Description
+
+This is Pegex written in CafeScript. Eventually it will be used to generate
+the Pegex frameworks in every language.
