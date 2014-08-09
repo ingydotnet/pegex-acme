@@ -1,0 +1,34 @@
+A rr ay
+B ool
+C lass
+D ate
+F unc tion
+G roup          (Set, Bag)
+H ash
+I nt
+L ib rary
+M eth od
+N um ber
+O bj ect
+P ointer,Ptr    (Ref)
+R at ional,Real
+S tr ing
+T up le
+U ni code       (Unicode Char)
+V oid           (Null)
+W ild card,Whatever (Unknown)
+
+E J K Q X Y Z
+
+- Others
+  - Any
+  - Bit
+  - Byte
+  - Char
+  - IO
+  - StdIn
+  - StdOut
+  - StdErr
+
+N@   Array of Number
+N%   Hash of String→Number
