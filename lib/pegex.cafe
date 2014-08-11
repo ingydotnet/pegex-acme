@@ -1,17 +1,21 @@
 Cafe 0.0.1
-  Pegex 0.0.1
-  require
-    Pegex::Parser
-    Pegex::Grammar
-  export
-    pegex
 
-\pegex(grammar receiver) {
+module Pegex 0.0.1
+
+require Pegex::Parser
+exports pegex
+
+\pegex grammar, receiver:?
+  if grammar.Type? Str, Pegex::Input
+    load Pegex::Grammar
+    grammar = Pegex::Grammar
+      text: grammar
   if ! receiver
     load Pegex::Tree::Wrap
-    receiver = Pegex::Tree::Wrap
-  receiver = Class(receiver)()
+    receiver = Pegex::Tree::Wrap()
+  elif receiver.Str?
+    load receiver
+    receiver = Class(receiver)()
   Pegex::Parser
-    grammar: Pegex::Grammar
-      text: grammar
+    grammar: grammar
     receiver: receiver
