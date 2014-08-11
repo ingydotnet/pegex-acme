@@ -1,0 +1,17 @@
+# 3 ways to view if/else
+
+if a
+  b
+elseif c
+  d
+else
+  e
+
+a ?
+  b
+: c ?
+  d
+:
+  e
+
+if(a, b, if(c, d, e))
