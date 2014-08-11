@@ -4,29 +4,23 @@ spec out what is needed in CafeScript.
 ###
 
 Cafe 0.0.1
-  Pegex::Parser 0.0.1
-  require
-    Pegex::Input
-    Pegex::Optimizer
 
-# XXX Need to figure out what uses this. (sample.t)
-Class Pegex::Constant
-  Null = Object()
-  Dummy = Object()
+load Pegex::Input Pegex::Optimizer
 
-Class Pegex::Parser
+Class Pegex::Parser 0.0.48
 
 Bool Debug = False
 
-\@ @grammar, @receiver, ...
+\@ @grammar, @receiver:?, ...
+  \@grammar
   {@input} = ...
   @rule = ~
   @parent = ~
   @error = ~
-  \@debug /= Env:PEGEX_DEBUG / debug | False
   @position = 0
   @farthest = 0
-  \@throw_on_error = True
+  \@debug /= Env:PEGEX_DEBUG / debug | False
+  @throw_on_error = True
 
 # XXX Add an optional $position argument. Default to 0. This is the position
 # to start parsing. Set position and farthest below to this value. Allows for
@@ -234,3 +228,8 @@ Bool Debug = False
   line = (@buffer:0:position).count("\n") + 1
   column = position - @buffer.rindex "\n" position
   [line, position]
+
+# XXX Need to figure out what uses this. (sample.t)
+Class Pegex::Constant
+  Null = Object()
+  Dummy = Object()

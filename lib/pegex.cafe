@@ -1,8 +1,8 @@
 Cafe 0.0.1
 
-module Pegex 0.0.1
+Module Pegex 0.0.1
 
-require Pegex::Parser
+load Pegex::Parser
 exports pegex
 
 \pegex grammar, receiver:?
