@@ -1,0 +1,9 @@
+Cafe 0.0.1
+
+Class Pegex::Input
+
+\@
+  @string
+  @stringref = ~
+  @file = ~
+  @handle = ~

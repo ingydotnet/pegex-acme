@@ -1,0 +1,55 @@
+= Comments
+
+UniScript supports block comments and to-end-of-line comments. It also
+supports comments that are part of the compilation tree (keepers), and
+throw-away comments.
+
+Block//keeper comments look like:
+
+  ###
+  Comment block lines go here. This
+  gets preserved in translation.
+  ###
+
+This uses the triple quoting style syntax that is used in CoffeeScript, and
+originates from Python triple quoting. Triple-character-quoting is a multiline
+meme of UniScript.
+
+Single line comments are thrown away. Block/throwaway comments are a sequence
+of throwaway line comments:
+
+  # Throw away simple line
+
+  # Throw away
+  # multiple lines
+
+To turn a single line comment into a keeper, use `##`:
+
+  ## Set x to 5. (Keeper comment)
+  x = 5
+  # Throw away comment.
+
+= String Quoting
+
+UniScript has many ways to quote strings: single-quote, double-quote,
+word-quote, words-quote, triple-single-quote, triple-double-quote:
+
+  single = 'I can''t escape this feeling'
+  double = "This \"one\" is like\nthat one"
+  word = -ROTFLBBQ            # 'ROTFLBBQ'
+  words = [<one two three>]   # ['one', 'two', 'three']
+  triple = '''
+      # Indentation in front of closing triple is removed
+      \method a, b, c=3   # ''' doesn't end this string
+         a + b / c
+      '''
+
+= Functions and Methods
+
+  A method is just a named function inside a class. The `\` character is used
+  to define a function.
+
+  Class X
+    \method-x a, b=0
+=
+

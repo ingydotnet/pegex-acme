@@ -11,23 +11,18 @@ Class Pegex::Parser 0.0.48
 
 Bool Debug = False
 
-\@ @grammar, @receiver:?, ...
-  \@grammar
-  {@input} = ...
-  @rule = ~
-  @parent = ~
-  @error = ~
-  @position = 0
-  @farthest = 0
-  \@debug /= Env:PEGEX_DEBUG / debug | False
+\@ \@grammar, \@receiver=, ...
+  {\@input, \@debug} = ...
+  @debug /= Env:PEGEX_DEBUG / debug | False
   @throw_on_error = True
+  @<rule parent error position farthest> =
 
 # XXX Add an optional $position argument. Default to 0. This is the position
 # to start parsing. Set position and farthest below to this value. Allows for
 # sub-parsing. Need to somehow return the finishing position of a subparse.
 # Maybe this all goes in a subparse() method.
-\parse input, start
-  start &= start .= gsub '-' '_'
+\parse input, start=
+  start &= _.gsub '-' '_'
 
   @position = 0
   @farthest = 0
@@ -47,7 +42,7 @@ Bool Debug = False
 
   start-rule-ref = start |
     @grammar:tree:'+toprule' |
-    @grammar:tree:TOP & 'TOP' |
+    @grammar:tree:TOP & -TOP |
     !!! "No starting rule for Pegex::Parser:parse"
 
   !!! "No 'receiver'. Can't parse"
@@ -70,7 +65,7 @@ Bool Debug = False
 
   match = if @debug
     method = optimizer.make-trace-wrapper @\match-ref
-    @.(method)(start-rule-ref, {'+asr': 0})
+    @.(method) start-rule-ref, {'+asr': 0}
   else
     match-ref start-rule-ref, {}
 
@@ -88,18 +83,18 @@ Bool Debug = False
   match:0
 
 \match-next next
-  (rule method kind min max assertion) =
+  rule method kind min max assertion =
     next:<rule method kind +min +max +asr>
 
-  (position match count) = (@position, [], 0)
+  position match count = @position, [], 0
 
-  while return = @.(method)(rule, next)
+  while return = @.(method) rule, next
     position = @position unless assertion
     count++
     match.extend return
     last if max == 1
 
-  if ! count & min == 0 & kind == 'all'
+  if ! count & min == 0 & kind == -all
     match = [[]]
 
   if max != 1
@@ -118,7 +113,7 @@ Bool Debug = False
 
   result ? next:'-skip' ? [] : match : 0
 
-\match-rule position, match:[]
+\match-rule position, match=[]
   @position = position
   @farthest = position
     if position > @farthest
@@ -127,7 +122,7 @@ Bool Debug = False
   rule = @grammar:tree:(ref)
     | !!! "No rule defined for '$ref'"
 
-  [ @receiver.(rule:action)(*match) ]
+  [ @receiver.(rule:action) *match ]
 
 \match-ref ref, parent
   rule = @grammar:tree:(ref)
@@ -138,10 +133,10 @@ Bool Debug = False
 
   # XXX Possible API mismatch.
   # Not sure if we should "splat" the $match.
-  [ @receiver.(rule:action)(*match) ]
+  [ @receiver.(rule:action) *match ]
 
 \match-rgx regexp
-  match = (@buffer:@position: =~ regexp) | return
+  match = @buffer:@position: =~ regexp | return
 
   @position = match.pos
 
@@ -187,9 +182,9 @@ Bool Debug = False
   snippet = @buffer:@position:
   snippet = snippet:0:30 + "..."
     if snippet > 30
-  snippet .= gsub "\n" '\n'
+  snippet .= gsub \n '\n'
   StdErr.printf ("%-30s", action) +
-    (indent ? " >$snippet<\n" : "\n")
+    (indent ? " >$snippet<\n" : \n)
 
 \throw-error msg
   @error = Error(format-error msg)
@@ -200,8 +195,8 @@ Bool Debug = False
   position = @farthest
   real-pos = @position
 
-  line = (@buffer:0:position).count("\n") + 1
-  column = position - @buffer.rindex "\n" position
+  line = @buffer:0:position.count(\n) + 1
+  column = position - @buffer.rindex \n position
 
   pretext = @buffer:(
       position < 50 ? 0 : position - 50
@@ -209,8 +204,8 @@ Bool Debug = False
       position < 50 ? position : 50
   )
   context = @buffer:position:50
-  pretext .= gsub /.*\n/s ''
-  context .= gsub "\n" '\n'
+  pretext .= gsub /.*\n/s
+  context .= gsub \n '\n'
 
   """
   Error parsing Pegex document:
@@ -223,10 +218,10 @@ Bool Debug = False
   """
 
 # TODO Move this to a Parser helper role/subclass
-\line-column position
+\line-column position=
   {position} |= @
-  line = (@buffer:0:position).count("\n") + 1
-  column = position - @buffer.rindex "\n" position
+  line = (@buffer:0:position).count(\n) + 1
+  column = position - @buffer.rindex \n, position
   [line, position]
 
 # XXX Need to figure out what uses this. (sample.t)
